@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NASA Space Apps – Story & Solution</title>
+  <meta name="description" content=" (Solution)." />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020;         
+      --bg-2:#0f1733;       
+      --txt:#e8ecff;        
+      --muted:#b7c1ff;     
+      --accent:#6df0ff;     
+      --accent-2:#a87bff;   
+      --ok:#7bffb5;
+      --warn:#ffd782;
+      --radius:18px;
+      --shadow:0 20px 50px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--txt);
+      background: radial-gradient(1200px 800px at 20% 10%, #101a3e 0%, #0b1020 60%),
+                  radial-gradient(900px 700px at 80% 20%, #1a1440 0%, #0b1020 70%),
+                  linear-gradient(180deg, #0a0f21 0%, #0b1020 100%);
+      overflow-x:hidden;
+    }
+    #starfield{position:fixed; inset:0; z-index:-1; display:block}
+
+    header{
+      position:sticky; top:0; z-index:10; backdrop-filter:saturate(160%) blur(10px);
+      background:linear-gradient(180deg, rgba(9,13,28,.9), rgba(9,13,28,.4));
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:18px 20px;}
+    .brand{display:flex; align-items:center; gap:12px}
+    .logo{width:28px; height:28px; border-radius:50%; background:
+      radial-gradient(circle at 30% 30%, var(--accent), transparent 50%),
+      radial-gradient(circle at 70% 70%, var(--accent-2), transparent 40%),
+      #121a3a; box-shadow:inset 0 0 20px rgba(255,255,255,.1),0 0 30px rgba(109,240,255,.2)}
+    .brand h1{font-size:18px; margin:0; letter-spacing:.4px}
+
+    nav{display:flex; gap:8px; flex-wrap:wrap}
+    .nav-btn{appearance:none; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04);
+      color:var(--txt); padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:600; transition:.2s;
+    }
+    .nav-btn:hover{transform:translateY(-1px); background:rgba(255,255,255,.08)}
+
+    main{padding:34px 18px 60px}
+
+    .hero{max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:center}
+    .hero-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius); box-shadow:var(--shadow); padding:28px; position:relative; overflow:hidden
+    }
+    .hero-card h2{font-size:34px; margin:0 0 12px; line-height:1.15}
+    .hero-card p{margin:0 0 10px; color:var(--muted)}
+    .tag{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04); font-weight:700; font-size:13px; letter-spacing:.3px}
+    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+    .stat{padding:14px; border-radius:14px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1);
+      text-align:center}
+    .stat b{font-size:22px}
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); box-shadow:var(--shadow); padding:22px;
+    }
+    .card h3{margin:0 0 12px; font-size:22px}
+    .card p{margin:0 0 12px; color:var(--muted); line-height:1.65}
+
+    .pill{display:inline-flex; gap:8px; align-items:center; padding:8px 12px; border-radius:999px; font-size:12px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04)}
+    .row{display:flex; gap:10px; flex-wrap:wrap}
+
+    .two-col{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+
+    .kbd{font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:12px; background:rgba(255,255,255,.08); padding:2px 6px; border-radius:6px}
+
+    footer{opacity:.7; text-align:center; font-size:13px; padding:30px 10px}
+
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
+    .btn{appearance:none; border:none; padding:12px 16px; border-radius:12px; font-weight:700; cursor:pointer; transition:.2s}
+    .btn.primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#041220}
+    .btn.ghost{background:rgba(255,255,255,.06); color:var(--txt); border:1px solid rgba(255,255,255,.14)}
+    .btn:hover{transform:translateY(-1px)}
+
+    .section{max-width:1100px; margin:32px auto 0;}
+
+    @media (max-width: 960px){
+      .hero{grid-template-columns:1fr;}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .two-col{grid-template-columns:1fr}
+    }
+    @media (max-width: 540px){
+      .grid{grid-template-columns:1fr}
+      .hero-card h2{font-size:28px}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="wrap" style="display:flex; justify-content:space-between; align-items:center; gap:14px">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>NASA Space Apps • Project</h1>
+      </div>
+      <nav>
+        <button class="nav-btn" data-goto="#story">Story</button>
+        <button class="nav-btn" data-goto="#solution">Solution</button>
+        <button class="nav-btn" data-goto="#ekip">Team & Contact</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-card">
+        <span class="tag">Çorum Hub • 2025</span>
+        <h2>Crumble Cookies / Fading River:Eğirdir</h2>
+        <p>Our goal is to instill environmental awareness in people </p>
+        <div class="actions" style="margin-top:8px">
+          <a class="btn primary" href="#solution">Solution</a>
+          <a class="btn ghost" href="#story">Story</a>
+          <button class="btn ghost" id="playGameBtn">Play Game</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Highlights
+        </h3>
+        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap">
+          <span class="pill">🚀 NASA Space Apps</span>
+          <span class="pill">🛰️ Earth Observation</span>
+          <span class="pill">🤝 Çorum Hub</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="story" class="section card" style="margin-top:28px">
+      <h3>Story </h3>
+      <p id="storyText">Once upon a time, there was a fisherman who lived in a charming little town. For this fisherman, fishing wasn’t just a source of income — it was a family legacy and a part of who he was. The town was built around a large lake, and most people made their living from fishing. But of course, the lake wasn’t used only for that; it also provided water for agriculture and served as a small tourist attraction. Beyond its economic value, the lake held deep spiritual meaning for the townspeople as well.<br><br>
+Long ago, when the world was still young, this land was nothing but a barren desert. Seeing such dryness and emptiness made Mother Nature very sad. One day, the clouds, unable to bear her sorrow any longer, decided to make a deal with her. According to this agreement, the clouds would give some of their water to create a lake on this land. But they had one condition — if one day, the lake were to disappear because of human actions, the people would no longer be welcome there, and Mother Nature would once again be condemned to loneliness. Believing that humans would never harm such a precious gift, Mother Nature gladly accepted the deal.<br><br>
+That’s why, for the fisherman, the lake meant much more than just water — it was sacred. He never used more than he needed, never harmed any living creature, and always kept the lake clean. Unfortunately, the other townspeople weren’t as mindful as he was. They didn’t care about pollution or saving water. Over time, their neglect began to take its toll — the lake started to shrink day by day. As the years went by, the water became polluted, and fish began washing up dead on the shore. Naturally, one of the people most affected by this was the fisherman.<br><br>
+He would come home empty-handed every evening. When fishing was no longer possible, he tried turning to farming, but because the remaining water was rationed, it wasn’t enough to irrigate his crops. He wasn’t the only one struggling, but while others focused only on money, the fisherman feared something much greater — he was the only one who believed that the ancient warning was about to come true. Deep down, he knew that Mother Nature’s deal was about to be broken.<br><br>
+And indeed, he was right. The lake continued to shrink until it almost completely vanished. It became so shallow that boats could no longer sail. When the lake dried up, nearly half of the town’s economy disappeared with it, and people began to leave — one by one, until only the fisherman remained. He resisted as long as he could, but eventually, even he was forced to leave his home behind.<br><br>
+Although this story may sound like a fairytale, there are countless real examples of it around the world. Sometimes, people act in time to save their lakes or water sources before it’s too late — but all too often, we wait until the damage is irreversible. The lake in this story represents Eğirdir Lake, the one we are dedicating our project to. Eğirdir Lake has not yet met such a tragic fate, but if we don’t take action now, we might lose it — or another lake on the other side of the world.<br><br>
+We have listened to the legend of Mother Nature and her sacred agreement. Please, join us in keeping that promise unbroken.</p>
+      <div class="row">
+        <button class="btn ghost" id="editStory">Quick Edit</button>
+        <button class="btn ghost" id="copyStory">Copy the text</button>
+      </div>
+    </section>
+
+    <section id="solution" class="section" style="margin-top:22px">
+      <div class="two-col">
+        <div class="card">
+          <h3>Solution</h3>
+          <p id="solutionText">Below are our proposed solution pillars to protect Lake Eğirdir and raise awareness locally and nationally.</p>
+          <ul style="margin-top:-8px">
+  <li><strong>Education &amp; Awareness:</strong> Organize campaigns and school events to inform local communities about the importance of Lake Eğirdir and its role in local businesses and daily life.</li>
+  <li><strong>Waste Management Improvements:</strong> Add more bins and redesign garbage collection around the lake; combine with strict, enforceable rules and fines against illegal dumping.</li>
+  <li><strong>Eco‑friendly Tourism:</strong> Promote sustainable tourism that protects the lake by highlighting both the benefits of conservation and the risks of drying.</li>
+  <li><strong>Community Involvement:</strong> Establish volunteer groups to clean the lakeshore and the lake itself, raising local and national awareness of the situation.</li>
+  <li><strong>Tech‑enabled Monitoring:</strong> Use satellite imagery and remote sensing (including NASA open data) to track water levels and demonstrate how pollution influences the environment and biodiversity.</li>
+  <li><strong>Policy &amp; Partnerships:</strong> Collaborate with environmental NGOs and government agencies to ensure long‑term, sustainable and effective conservation policies.</li>
+</ul>
+          <div class="row">
+            <button class="btn ghost" id="editSolution">Hızlı Düzenle</button>
+            <button class="btn ghost" id="copySolution">Metni Kopyala</button>
+          </div>
+      </div>
+    </section>
+
+    <section id="ekip" class="section card">
+      <h3>Team & Contact</h3>
+      <p></p>
+      <ul>
+        <li>Member 1 Demir Özdemir</li>
+        <li>Member 2 Ali Emir Özsoy</li>
+        <li>Member 3 Elif Naz Barlas</li>
+        <li>Member 4 Tuna Baydar</li>
+        <li>Member 5 Mehmet Efe Tezcan</li>
+      </ul>
+      <div class="row">
+        <span class="pill">Contact: <span class="kbd">demirozdemir188@gmail.com</span></span>
+      </div>
+    </section>
+
+    <section class="section" style="margin-top:22px">
+      <div class="card">
+        <h3>Save it as PDF</h3>
+        <div class="actions">
+          <button class="btn primary" id="printBtn">Save it PDF</button>
+          <button class="btn ghost" id="shareBtn">Create a sharing <link rel="stylesheet" href=""></button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2025 • NASA Space Apps – Çorum Hub | Creator: Crumble Cookies Team
+    </footer>
+  </main>
+
+  <script>
+   
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-goto');
+        const el = document.querySelector(id);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+
+
+    function quickEdit(el){
+      const current = el.innerText.trim();
+      const next = prompt('Yeni metni girin:', current);
+      if(next !== null){ el.innerText = next; }
+    }
+    document.getElementById('editStory').addEventListener('click', () => quickEdit(document.getElementById('storyText')));
+    document.getElementById('editSolution').addEventListener('click', () => quickEdit(document.getElementById('solutionText')));
+
+
+    async function copyText(text){
+      try{ await navigator.clipboard.writeText(text); alert('Kopyalandı ✔'); }
+      catch(e){ console.log(e); alert('Kopyalama başarısız oldu.'); }
+    }
+    document.getElementById('copyStory').addEventListener('click', () => copyText(document.getElementById('storyText').innerText));
+    document.getElementById('copySolution').addEventListener('click', () => copyText(document.getElementById('solutionText').innerText));
+
+
+    const demoUrl = document.getElementById('demoUrl');
+    const codeUrl = document.getElementById('codeUrl');
+    const demoBtn = document.getElementById('demoBtn');
+    const codeBtn = document.getElementById('codeBtn');
+    function bindUrls(){
+      const d = demoUrl.value.trim();
+      demoBtn.href = d || '#';
+      demoBtn.style.opacity = d ? '1' : '.6';
+      const c = codeUrl.value.trim();
+      codeBtn.href = c || '#';
+      codeBtn.style.opacity = c ? '1' : '.6';
+    }
+    demoUrl.addEventListener('input', bindUrls);
+    codeUrl.addEventListener('input', bindUrls);
+
+
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+    document.getElementById('shareBtn').addEventListener('click', () => {
+      const data = {
+        story: document.getElementById('storyText').innerText,
+        solution: document.getElementById('solutionText').innerText,
+        demo: demoUrl.value.trim(),
+        code: codeUrl.value.trim()
+      };
+      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+      const url = location.origin + location.pathname + '#data=' + encoded;
+      navigator.clipboard.writeText(url).then(()=>alert('Paylaşım linki panoya kopyalandı!')).catch(()=>alert(url));
+    });
+
+    function loadFromHash(){
+      if(location.hash.startsWith('#data=')){
+        try{
+          const json = decodeURIComponent(escape(atob(location.hash.replace('#data=',''))));
+          const data = JSON.parse(json);
+          if(data.story) document.getElementById('storyText').innerText = data.story;
+          if(data.solution) document.getElementById('solutionText').innerText = data.solution;
+          if(data.demo){ demoUrl.value = data.demo; }
+          if(data.code){ codeUrl.value = data.code; }
+          bindUrls();
+        }catch(e){ console.warn('Paylaşım verisi çözümlenemedi:', e); }
+      }
+    }
+    window.addEventListener('hashchange', loadFromHash);
+    loadFromHash();
+
+
+    (function starfield(){
+      const canvas = document.getElementById('starfield');
+      const ctx = canvas.getContext('2d');
+      let w, h, stars;
+      function resize(){ w = canvas.width = innerWidth; h = canvas.height = innerHeight; create(); }
+      function rand(a,b){ return Math.random()*(b-a)+a; }
+      function create(){
+        const count = Math.min(300, Math.floor((w*h)/8000));
+        stars = Array.from({length:count}, ()=>({
+          x: rand(0,w), y: rand(0,h), z: rand(0.2,1.2), r: rand(.3,1.6),
+          tw: rand(0,Math.PI*2)
+        }));
+      }
+      function draw(){
+        ctx.clearRect(0,0,w,h);
+        for(const s of stars){
+          s.tw += 0.02; const alpha = 0.4 + Math.sin(s.tw)*0.3;
+          ctx.beginPath(); ctx.arc(s.x, s.y, s.r*s.z, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(255,255,255,${alpha})`; ctx.fill();
+          // hafif parıltı
+          if(Math.random()<0.003){ ctx.shadowBlur = 10; ctx.shadowColor = '#6df0ff'; }
+          else{ ctx.shadowBlur = 0; }
+        }
+        requestAnimationFrame(draw);
+      }
+      addEventListener('resize', resize, {passive:true});
+      resize(); draw();
+    })();
+  </script>
+<div id="gameModal" style="position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.65);z-index:1000">
+  <div style="width:min(1100px,92vw);height:min(680px,86vh);background:#0f1733;border:1px solid rgba(255,255,255,.14);border-radius:18px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.35);display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.12)">
+      <h4 style="margin:0;font-size:16px">Play Game</h4>
+      <button id="closeGame" style="appearance:none;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#e8ecff;border-radius:10px;padding:6px 10px;cursor:pointer">Close</button>
+    </div>
+    <div style="flex:1;background:#000">
+      <iframe id="gameFrame" allowfullscreen allow="fullscreen; autoplay; clipboard-read; clipboard-write" style="width:100%;height:100%;border:0"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const btn = document.getElementById('playGameBtn');
+    const modal = document.getElementById('gameModal');
+    const close = document.getElementById('closeGame');
+    const frame = document.getElementById('gameFrame');
+
+    function toEmbed(url){
+      try{
+        const u = new URL(url);
+        if(u.hostname.includes('scratch.mit.edu')){
+          const parts = u.pathname.split('/').filter(Boolean);
+          const idx = parts.indexOf('projects');
+          if(idx !== -1 && parts[idx+1]){
+            const id = parts[idx+1].replace(/[^0-9]/g,'');
+            return `https://scratch.mit.edu/projects/${id}/embed`;
+          }
+        }
+       
+        return url;
+      }catch(e){ return url; }
+    }
+
+    function openGame(){
+      
+      const url = 'https://scratch.mit.edu/projects/1224737688/';
+    const embed = toEmbed(url);
+    frame.src = embed;
+    modal.style.display = 'grid';
+    }
+
+    btn && btn.addEventListener('click', openGame);
+    close && close.addEventListener('click', () => { frame.src='about:blank'; modal.style.display='none'; });
+    modal && modal.addEventListener('click', (e)=>{ if(e.target === modal){ frame.src='about:blank'; modal.style.display='none'; } });
+  })();
+</script>
+</body>
+</html>
